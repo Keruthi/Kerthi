@@ -1,0 +1,24 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the Titanic dataset
+training = pd.read_csv('https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv')
+
+# Separate the data into numeric and categorical features
+df_num = training[['Age', 'SibSp', 'Parch', 'Fare']]
+df_cat = training[['Survived', 'Pclass', 'Sex', 'Ticket', 'Cabin', 'Embarked']]
+
+# Explore numeric features
+for i in df_num.columns:
+    plt.hist(df_num[i])
+    plt.title(i)
+    plt.show()
+
+# Correlation heatmap
+sns.heatmap(df_num.corr())
+
+# Compare survival rates across numeric variables
+survival_summary = pd.pivot_table(training, index='Survived', values=['Age', 'SibSp', 'Parch', 'Fare'])
+print(survival_summary)
